@@ -20,7 +20,7 @@ Route::get('/', function () {
 
 
 
-Route::get('/qr-code', [QrCode::class, 'index'])->name('qrcode.index');
+Route::get('/qr-code/{qr_key}', [QrCode::class, 'index'])->name('qrcode.index');
 Route::post('/update-qrcode', [QrCode::class, 'qrcode'])->name('qrcode.update');
 
 

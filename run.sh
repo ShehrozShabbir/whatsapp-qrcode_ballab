@@ -13,6 +13,8 @@ echo "migration ..."
 #echo "storage"
 #php artisan storage:link
 
-echo "php artisan key:generate
+echo "key generate"
+php artisan key:generate
+
 echo "Starting server ..."
 php artisan serve --host=0.0.0.0

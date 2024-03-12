@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+    #app_webai_sms:
+      #build: ./ihsan_web_ai
+      #image: sms_web_ai_app:v1
+      #container_name: web_ai_sms_container
+      #restart: always
+      #working_dir: /var/www
+      #volumes:
+        #- ./ihsan_web_ai:/var/www
+      #ports:
+        #- "8000:8000"
+      #command: ["php", "artisan", "serve", "--host=0.0.0.0"]
+
+      #depends_on:
+       # - db
+      #environment:
+        #DB_HOST: db
+        #DB_PORT: 3306
+
+    wb_ihsancrm_main:
+      build: ./
+      image: blablab:v2
+      container_name: blablab_main_web_container
+      restart: always
+      working_dir: /var/www
+      volumes:
+        - ./:/var/www
+      ports:
+        - "3015:8000"
+      command: ["bash", "run.sh"]
+
+      depends_on:
+        - db_blablab
+      environment:
+        DB_HOST: db_blablab
+        DB_PORT: 3306
+
+    db_blablab:
+      image: mysql:latest
+      container_name: db_ahsanai_container
+      restart: always
+      environment:
+        MYSQL_DATABASE: laravel
+        MYSQL_ROOT_PASSWORD: As123456?
+      ports:
+        - "3309:3306"
+      volumes:
+        - dbdata_blablab:/var/lib/mysql
+
+volumes:
+  dbdata_blablab:

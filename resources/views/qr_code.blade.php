@@ -10,57 +10,69 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+
         }
 
         img{
+
             display: flex;
             justify-content: center;
         }
 
         .qr-code {
+
             max-width: 100%;
             /* Adjust the maximum width of the QR code */
             margin: auto;
         }
+        .alert-dark{
+            background: #000;
+            color: #fff;
+        }
+        .dnone{
+            display: none;
+        }
+
     </style>
 </head>
 
 <body>
     <div class="container-fluid">
-        @if ($status == 200)
-            <div class="alert alert-dark d-flex  align-items-center">
-                <h1>Generating Qr Code</h1>
-                <div class="spinner-grow text-secondary ml-4" role="status">
-                    <span class="sr-only">Loading...</span>
-                  </div>
-                  <div class="spinner-grow text-secondary" role="status">
-                    <span class="sr-only">Loading...</span>
-                  </div>
-                  <div class="spinner-grow text-dark" role="status">
-                    <span class="sr-only">Loading...</span>
-                  </div>
-                  <div class="spinner-grow text-dark" role="status">
-                    <span class="sr-only">Loading...</span>
-                  </div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between">
+            <a class="navbar-brand" href="#">{{auth()->user()->email}}</a>
+            <div>
+                <a href="{{route('logoutSession')}}"  class="btn btn-outline-primary my-2 my-sm-0">Logout from Whatsapp</a>
+            <a href="{{route('logout')}}" class="btn btn-outline-success my-2 my-sm-0" >Logout</a>
             </div>
-            <img class="qr-code" src="" alt="QR Code">
-            <script>
-                setInterval(function() {
-                    //updateQrCode();
-                }, 5000);
-            </script>
-        @else
-            <div class="alert alert-dark ">
-                <h1>{{ $errorMessage }}</h1>
+          </nav>
+        @if ($status == 200 OR $status == 201)
 
+            @if ($status==201)
+            <img class="qr-code" src="data:image/png;base64,{{$imageData}}" alt="QR Code">
+            @else
+            <img class="qr-code dnone" style="" alt="QR Code">
+            <div class="vh-100 d-flex align-items-center justify-content-center">
+                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+
+            @endif
+
+
+        @else
+        <img class="qr-code dnone" style="" alt="QR Code">
+         <div class="row mt-5">
+            <div class=" col-sm-7 mt-5 mx-auto" >
+                <div class="alert alert-dark" role="alert">
+                   {{$errorMessage}}
+                  </div>
             </div>
+         </div>
+
+
         @endif
 
     </div>
@@ -71,7 +83,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
     // Reload the page after 10 seconds
-    $('.qr-code').hide();
+
     updateQrCode();
 
     function updateQrCode() {

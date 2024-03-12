@@ -17,11 +17,11 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: darkslategray;
+            background: #000;
         }
         .btn-primary,.alert-dark{
-            background: darkslategray;
-            border-color: darkslategray;
+            background: #000;
+            border-color: #000;
             color: white;
         }
     </style>
@@ -31,13 +31,13 @@
     <div class="container">
 
      <div class="row">
-        <div class="col-sm-5 mx-auto">
+        <div class="col-sm-9 col-md-6 mx-auto">
             <div class="card">
 
                 <form action="{{route('login')}}" method="post">
                     @csrf
                     <div class="card-body">
-                        <h2 class="w-100 text-center my-3">Login </h2>
+                        <h2 class="w-100 text-center my-3 h2">Blab </h2>
                         @if (session('error'))
                         <div class="alert alert-dark">
                             {{session('error')}}
@@ -46,13 +46,13 @@
                         <div class="form-group row">
                             <div class="col-sm-12">
                                 <label for="">Email</label>
-                                <input type="email" class="form-control" name="email" id="">
+                                <input type="email" placeholder="Enter Email" class="form-control" name="email" id="">
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-12">
                                 <label for="">Password</label>
-                                <input type="password" class="form-control" name="password" id="">
+                                <input type="password" placeholder="Enter Password" class="form-control" name="password" id="">
                             </div>
                         </div>
                         <div class="form-group row">

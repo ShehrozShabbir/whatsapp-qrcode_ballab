@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Crypt;
 use Validator;
 
@@ -116,5 +117,43 @@ class LoginController extends Controller
 
 
     }
+    public function logout(Request $request){
+        Auth::logout();
 
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/')->with('success', 'You have been log out!');
+    }
+    public function logoutSession(){
+
+
+        try {
+            $postData = [
+
+                "name" => auth()->user()->uid,
+                'logout'=>true,
+            ];
+            $response = Http::withHeaders([
+                'X-Api-Key' => 'api_adminn@2291',
+            ])->post('https://whatsapp.ihsancrm.com/api/sessions/stop',$postData);
+
+            // Check if the request was successful
+            if ($response->successful()) {
+                return redirect()->route('qrcode.index',['qr_key'=>auth()->user()->uid]);
+            } else {
+                $status = 400;
+
+                $errorMessage='Unable to logout from Whatsapp Session Has been logout already';
+                return view('qr_code', compact('status', 'qr_key','errorMessage'));
+            }
+        } catch (\Throwable $th) {
+            $status = 400;
+            $errorMessage='Invalid User Id...';
+            $qr_key=auth()->user()->uid;
+            return view('qr_code', compact('status', 'qr_key','errorMessage'));
+        }
+
+    }
 }

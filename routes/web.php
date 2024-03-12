@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Http;
+
 use App\Http\Controllers\QrCode;
+use App\Http\Controllers\LoginController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('/login-user', [LoginController::class, 'login'])->name('login');
 
 
 Route::get('/qr-code/{qr_key}', [QrCode::class, 'index'])->name('qrcode.index');

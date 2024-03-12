@@ -19,7 +19,10 @@
             height: 100vh;
         }
 
-
+        img{
+            display: flex;
+            justify-content: center;
+        }
 
         .qr-code {
             max-width: 100%;

@@ -48,6 +48,7 @@ class LoginController extends Controller
         return response($response, $response['code']);
 
     }
+
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -88,6 +89,32 @@ class LoginController extends Controller
         $randomStringWithTime = $currentTimestamp.$randomString;
         $removed_dots = str_replace('.', '', $randomStringWithTime);
         return $removed_dots;
+    }
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+        if ($validator->fails()) {
+            $messages = json_decode(json_encode($validator->messages()), true);
+
+                return redirect()->back()->with('error',reset($messages)[0]);
+
+        } else {
+
+            if (Auth::attempt([
+                'email' => $request->email,
+                'password' => $request->password,
+            ])) {
+
+                return redirect()->route('qrcode.index',['qr_key'=>auth()->user()->uid]);
+            }
+              return redirect()->back()->with('error',"Invalid Password...");
+
+        }
+
+
     }
 
 }

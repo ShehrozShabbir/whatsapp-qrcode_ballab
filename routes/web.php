@@ -22,7 +22,7 @@ Route::get('/', function () {
 
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/logout/session', [LoginController::class, 'logoutSession'])->name('logoutSession');
-Route::post('/login-user', [LoginController::class, 'login'])->name('login');
+Route::post('/login-user', [LoginController::class, 'login'])->name('login.store');
 
 
 Route::get('/qr-code/{qr_key}', [QrCode::class, 'index'])->name('qrcode.index')->middleware('auth');

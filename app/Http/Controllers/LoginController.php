@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\User;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Crypt;
 use Validator;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 
 
 class LoginController extends Controller
@@ -108,7 +109,9 @@ class LoginController extends Controller
                 'email' => $request->email,
                 'password' => $request->password,
             ])) {
-
+                $user = Auth::user();
+                $token = $user->createToken('my-app-token')->plainTextToken;
+                $cookie = cookie('auth_token', $token, 60*24*7);//7days
                 return redirect()->route('qrcode.index',['qr_key'=>auth()->user()->uid]);
             }
               return redirect()->back()->with('error',"Invalid Password...");
@@ -123,7 +126,7 @@ class LoginController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
-
+        $cookie = Cookie::forget('auth_token');
         return redirect('/')->with('success', 'You have been log out!');
     }
     public function logoutSession(){

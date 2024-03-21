@@ -34,7 +34,7 @@
         <div class="col-sm-9 col-md-6 mx-auto">
             <div class="card">
 
-                <form action="{{route('login')}}" method="post">
+                <form action="{{route('login.store')}}" method="post">
                     @csrf
                     <div class="card-body">
                         <h2 class="w-100 text-center my-3 h2">Blab </h2>
